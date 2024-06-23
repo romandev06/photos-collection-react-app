@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import Collection from './Collection'
-import { Skeleton } from './Skeleton'
+import Loader from './Loader'
+import useInput from './hooks/useInput'
 
 function App() {
   const [collections, setCollections] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
+  const input = useInput()
+
+
+  const [categoryId, setCategoryId] = useState(0)
 
   const categories = [
     {"name": "Все"},
@@ -18,12 +23,13 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true)
-    fetch('https://6676e32a145714a1bd7316c8.mockapi.io/photos_collections')
+    const category = `category=${categoryId}`
+    fetch(`https://6676e32a145714a1bd7316c8.mockapi.io/photos_collections?${categoryId ? category : ''}`)
     .then(res => res.json())
     .then(data => setCollections(data))
     .catch(err => console.log(err))
     .finally(() => setIsLoading(false))
-  }, [])
+  }, [categoryId])
 
 
 
@@ -32,27 +38,26 @@ function App() {
       <h1>Моя коллекция фотографий</h1>
       <section className='categories'>
         <div className='categories-btn'>
-          {categories.map(category => <button key={category.name}>{category.name}</button>)}
+          {categories.map((category, index) => <button onClick={() => setCategoryId(index)} className={index === categoryId ? 'active' : ''} key={category.name}>{category.name}</button>)}
         </div>
-        <input placeholder='Поиск по названию' type="text" />
+        <input {...input} placeholder='Поиск по названию' type="text" />
       </section>
 
 
-      {!isLoading && (
-        <div className="card-wrapper">
-          {collections.map(collection => <Collection key={collection.name} {...collection} />)}
-        </div>
-      )}
+      <section>
+        {!isLoading && (
+          <div className="card-wrapper">
+            {collections.filter(collection => collection.name.toLowerCase().includes(input.value.toLowerCase()))
+            .map(collection => <Collection key={collection.name} {...collection} />)}
+          </div>
+        )}
 
-      {isLoading && (
-        <>
-        <Skeleton/>
-        <Skeleton/>
-        <Skeleton/>
-        <Skeleton/>
-        <Skeleton/>
-      </>
-      )}
+        {isLoading && (
+          <>
+          <Loader/>
+        </>
+        )}
+      </section>
 
 
       <div className='pagination'>

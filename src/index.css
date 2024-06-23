@@ -126,3 +126,38 @@ input {
   font-size: 20px;
   font-weight: 600;
 }
+
+
+.loader-wrapper {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 9px solid rgb(116, 116, 116);
+  border-top: 9px solid white;
+  animation: loader 0.5s ease-in-out forwards 999;
+}
+
+
+
+@keyframes loader {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
