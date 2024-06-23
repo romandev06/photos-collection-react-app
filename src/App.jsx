@@ -5,13 +5,15 @@ import Loader from './Loader'
 import useInput from './hooks/useInput'
 
 function App() {
-  const [collections, setCollections] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [collections, setCollections] = useState([]) // массив с данными от бекенда
+  const [isLoading, setIsLoading] = useState(true) // создание Лоадера
 
-  const input = useInput()
+  const [page, setPage] = useState(1)  // пагинация
+
+  const input = useInput() // кастомный хук для фильтрации
 
 
-  const [categoryId, setCategoryId] = useState(0)
+  const [categoryId, setCategoryId] = useState(0)  // для выбора по категориям
 
   const categories = [
     {"name": "Все"},
@@ -23,13 +25,13 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true)
-    const category = `category=${categoryId}`
-    fetch(`https://6676e32a145714a1bd7316c8.mockapi.io/photos_collections?${categoryId ? category : ''}`)
+    const category = categoryId ? `category=${categoryId}` : ''
+    fetch(`https://6676e32a145714a1bd7316c8.mockapi.io/photos_collections?page=${page}&limit=2&${category}`)
     .then(res => res.json())
     .then(data => setCollections(data))
     .catch(err => console.log(err))
     .finally(() => setIsLoading(false))
-  }, [categoryId])
+  }, [categoryId, page])
 
 
 
@@ -61,10 +63,9 @@ function App() {
 
 
       <div className='pagination'>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
+        {
+          [...Array(4)].map((elem, index) => <button key={index} onClick={() => setPage(index + 1)} className={page === index + 1 ? 'active' : ''}>{index + 1}</button>)
+        }
       </div>
     </>
   )
