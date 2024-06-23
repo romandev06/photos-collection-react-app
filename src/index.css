@@ -59,6 +59,11 @@ input {
   padding: 5px;
   border-radius: 5px;
   border: 2px solid rgba(0, 0, 0, 0.5);
+  background-color: white;
+
+  &::placeholder {
+    color: black;
+  }
 }
 
 
@@ -84,6 +89,7 @@ input {
   justify-content: center;
   gap: 7px;
   margin-top: 70px;
+  color: black;
 }
 
 .card {
@@ -147,11 +153,19 @@ input {
 
 
 
+
 @keyframes loader {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .card-wrapper {
+    grid-template-columns: repeat(1, 660px);
   }
 }
