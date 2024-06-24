@@ -26,7 +26,7 @@ function App() {
   useEffect(() => {
     setIsLoading(true)
     const category = categoryId ? `category=${categoryId}` : ''
-    fetch(`https://6676e32a145714a1bd7316c8.mockapi.io/photos_collections?page=${page}&limit=2&${category}`)
+    fetch(`https://6676e32a145714a1bd7316c8.mockapi.io/photos_collections?page=${page}&limit=3&${category}`)
     .then(res => res.json())
     .then(data => setCollections(data))
     .catch(err => console.log(err))
@@ -62,9 +62,10 @@ function App() {
       </section>
 
 
+
       <div className='pagination'>
         {
-          [...Array(4)].map((elem, index) => <button key={index} onClick={() => setPage(index + 1)} className={page === index + 1 ? 'active' : ''}>{index + 1}</button>)
+          [...Array(6)].map((elem, index) => <button key={index} onClick={() => setPage(index + 1)} className={page === index + 1 ? 'active' : ''}>{index + 1}</button>)
         }
       </div>
     </>
