@@ -46,7 +46,7 @@ function App() {
       </section>
 
 
-      <section>
+      <section className='main-container'>
         {!isLoading && (
           <div className="card-wrapper">
             {collections.filter(collection => collection.name.toLowerCase().includes(input.value.toLowerCase()))
